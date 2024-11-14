@@ -40,6 +40,8 @@ namespace Librerias_AMGD
 
             //Configurar el servicio para que pueda ser usado
             services.AddTransient<BooksService>();
+            services.AddTransient<AuthorService>();
+            services.AddTransient<PublisherService>();
 
             services.AddSwaggerGen(c =>
             {
@@ -68,7 +70,7 @@ namespace Librerias_AMGD
             {
                 endpoints.MapControllers();
             });
-            AppDbInitializer.Seed(app);
+           // AppDbInitializer.Seed(app);
         }
     }
 }
