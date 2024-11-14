@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Librerias_AMGD.Data.ViewModels
 {
@@ -10,7 +11,8 @@ namespace Librerias_AMGD.Data.ViewModels
         public DateTime? DateRead { get; set; }
         public int? Rate { get; set; }
         public string Genero { get; set; }
-        public string Autor { get; set; }
         public string CoverUrl { get; set; }
+        public int PublisherID { get; set; }
+        public List<int> AutorIDs { get; set; }
     }
 }
