@@ -46,7 +46,22 @@ namespace Librerias_AMGD.Data.Services
         //Método que nos permite obtener una lista de todos los libros en la BD
         public List<Book> GetAllBks() => _context.Books.ToList();
         //Método que nos permite obtener el libro que estamos pidiendo de la BD
-        public Book GetBookById(int bookid) => _context.Books.FirstOrDefault(n => n.id == bookid);
+        public BookWithAuthorsVM GetBookById(int bookid) 
+        {
+            var _BookWithAuthorsVM = _context.Books.Where(n => n.id == bookid).Select(book => new BookWithAuthorsVM()
+            {
+                Title = book.Title,
+                Descripcion = book.Descripcion,
+                IsRead = book.IsRead,
+                DateRead = book.DateRead,
+                Rate = book.Rate,
+                Genero = book.Genero,
+                CoverUrl = book.CoverUrl,
+                PublisherName = book.Publisher.Name,
+                AuthorNames = book.Book_Author.Select(n => n.Author.FullName).ToList()
+            }).FirstOrDefault();
+            return _BookWithAuthorsVM;
+        }
 
         //Método que nos permite modificar un libro que se encuentra en la BD
         public Book UpdateBookById(int bookid, BookVM book)

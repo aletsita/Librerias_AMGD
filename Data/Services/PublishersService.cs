@@ -1,6 +1,7 @@
 ﻿using Librerias_AMGD.Data.Models;
 using Librerias_AMGD.Data.ViewModels;
 using System;
+using System.Linq;
 using System.Security.Policy;
 
 namespace Librerias_AMGD.Data.Services
@@ -23,6 +24,21 @@ namespace Librerias_AMGD.Data.Services
             };
             _context.Publishers.Add(_publisher);
             _context.SaveChanges();
+        }
+
+        public PublisherWithBooksAndAutorsVM GetPublisherData(int publisherId) 
+        {
+            var _publisherData = _context.Publishers.Where(n => n.Id == publisherId)
+                .Select(n => new PublisherWithBooksAndAutorsVM()
+                {
+                    Name = n.Name,
+                    BookAuthors = n.Books.Select(n => new BookAutorVM()
+                    {
+                        BooksName = n.Title,
+                        BookAuthors = n.Book_Author.Select(n => n.Author.FullName).ToList()
+                    }).ToList()
+                }).FirstOrDefault();
+            return _publisherData;
         }
     }
 }

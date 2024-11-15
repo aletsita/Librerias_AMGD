@@ -11,7 +11,7 @@ namespace Librerias_AMGD.Controllers
     {
         private AuthorService _authorService;
 
-        public AuthorsController(AuthorService authorsServices) 
+        public AuthorsController(AuthorService authorsServices)
         {
             _authorService = authorsServices;
         }
@@ -22,5 +22,13 @@ namespace Librerias_AMGD.Controllers
             _authorService.AddAuthor(author);
             return Ok();
         }
+
+        [HttpGet("get-author-with-books-by-id/{id}")]
+        public IActionResult GetAuthorWithBooks(int id) 
+        {
+            var response = _authorService.GetAuthorWithBooks(id);
+            return Ok(response);
+        }
+
     }
 }
