@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Librerias_AMGD.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20241111060616_PublisherAdded")]
-    partial class PublisherAdded
+    [Migration("20241121155424_Migration1")]
+    partial class Migration1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,15 +21,27 @@ namespace Librerias_AMGD.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("Librerias_AMGD.Data.Models.Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("FullName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Authors");
+                });
+
             modelBuilder.Entity("Librerias_AMGD.Data.Models.Book", b =>
                 {
                     b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Autor")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("CoverUrl")
                         .HasColumnType("nvarchar(max)");
@@ -65,6 +77,28 @@ namespace Librerias_AMGD.Migrations
                     b.ToTable("Books");
                 });
 
+            modelBuilder.Entity("Librerias_AMGD.Data.Models.Book_Author", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AuthorId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("BookId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AuthorId");
+
+                    b.HasIndex("BookId");
+
+                    b.ToTable("Book_Authors");
+                });
+
             modelBuilder.Entity("Librerias_AMGD.Data.Models.Publisher", b =>
                 {
                     b.Property<int>("Id")
@@ -77,7 +111,7 @@ namespace Librerias_AMGD.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Publisher");
+                    b.ToTable("Publishers");
                 });
 
             modelBuilder.Entity("Librerias_AMGD.Data.Models.Book", b =>
@@ -89,6 +123,35 @@ namespace Librerias_AMGD.Migrations
                         .IsRequired();
 
                     b.Navigation("Publisher");
+                });
+
+            modelBuilder.Entity("Librerias_AMGD.Data.Models.Book_Author", b =>
+                {
+                    b.HasOne("Librerias_AMGD.Data.Models.Author", "Author")
+                        .WithMany("Book_Author")
+                        .HasForeignKey("AuthorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Librerias_AMGD.Data.Models.Book", "Book")
+                        .WithMany("Book_Author")
+                        .HasForeignKey("BookId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Author");
+
+                    b.Navigation("Book");
+                });
+
+            modelBuilder.Entity("Librerias_AMGD.Data.Models.Author", b =>
+                {
+                    b.Navigation("Book_Author");
+                });
+
+            modelBuilder.Entity("Librerias_AMGD.Data.Models.Book", b =>
+                {
+                    b.Navigation("Book_Author");
                 });
 
             modelBuilder.Entity("Librerias_AMGD.Data.Models.Publisher", b =>

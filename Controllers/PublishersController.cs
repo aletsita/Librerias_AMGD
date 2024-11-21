@@ -2,6 +2,7 @@
 using Librerias_AMGD.Data.ViewModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Librerias_AMGD.Controllers
 {
@@ -28,6 +29,13 @@ namespace Librerias_AMGD.Controllers
         {
             var _response = _publishersService.GetPublisherData(id);
             return Ok(_response);
+        }
+
+        [HttpDelete("delete-publisher-by-id")]
+        public IActionResult DeletePublisherById(int id)
+        {
+            _publishersService.DeletePublisherById(id);
+            return Ok();
         }
     }
 }

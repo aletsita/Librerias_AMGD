@@ -85,9 +85,6 @@ namespace Librerias_AMGD.Migrations
                     b.Property<int>("AuthorId")
                         .HasColumnType("int");
 
-                    b.Property<int>("AuthorId1")
-                        .HasColumnType("int");
-
                     b.Property<int>("BookId")
                         .HasColumnType("int");
 
@@ -95,7 +92,7 @@ namespace Librerias_AMGD.Migrations
 
                     b.HasIndex("AuthorId");
 
-                    b.HasIndex("AuthorId1");
+                    b.HasIndex("BookId");
 
                     b.ToTable("Book_Authors");
                 });
@@ -128,15 +125,15 @@ namespace Librerias_AMGD.Migrations
 
             modelBuilder.Entity("Librerias_AMGD.Data.Models.Book_Author", b =>
                 {
-                    b.HasOne("Librerias_AMGD.Data.Models.Book", "Book")
+                    b.HasOne("Librerias_AMGD.Data.Models.Author", "Author")
                         .WithMany("Book_Author")
                         .HasForeignKey("AuthorId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Librerias_AMGD.Data.Models.Author", "Author")
+                    b.HasOne("Librerias_AMGD.Data.Models.Book", "Book")
                         .WithMany("Book_Author")
-                        .HasForeignKey("AuthorId1")
+                        .HasForeignKey("BookId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
