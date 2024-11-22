@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Linq;
 using System.Security.Policy;
+using PublisherModel = Librerias_AMGD.Data.Models.Publisher;
 
 namespace Librerias_AMGD.Data.Services
 {
@@ -17,15 +18,18 @@ namespace Librerias_AMGD.Data.Services
         }
 
         //Método que nos permite agregar un Publisher en la BD
-        public void AddPublisher(PublisherVM Publisher)
+        public PublisherModel AddPublisher(PublisherVM Publisher)
         {
-            var _publisher = new Librerias_AMGD.Data.Models.Publisher()
+            var _publisher = new PublisherModel()
             {
                 Name = Publisher.Name
             };
             _context.Publishers.Add(_publisher);
             _context.SaveChanges();
+            return _publisher;
         }
+
+        public PublisherModel GetPublisherByID(int id) => _context.Publishers.FirstOrDefault(n => n.Id == id);
 
         public PublisherWithBooksAndAutorsVM GetPublisherData(int publisherId) 
         {
